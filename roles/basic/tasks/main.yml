@@ -1,0 +1,25 @@
+- name: ansible add user to group example
+  user:
+    name: testuser
+    password: '$6$rounds=656000$mysecretsalt$/2bJPNQpiutWuLnwQtUPqOPiML/2NxEbXmVyFAGwk3g6rb1pD7t0WyciPcianzmEhgn7138jIxFdecOkEGgPt0'
+    groups: wheel
+
+
+- name: Add authorized keys
+  authorized_key:
+    user: testuser
+    state: present
+    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+- name: "Installing Basic Tools"
+  yum: pkg={{ item }} state=installed
+  with_items:
+  - git
+  - vim
+  - libaio
+  - numactl
+  - sysfsutils
+  - unzip
+  - wget
+  - net-tools
+  - expect
